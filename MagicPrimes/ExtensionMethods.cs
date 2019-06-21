@@ -12,9 +12,9 @@ namespace MagicPrimes
             if (candidate <= 1)
                 return false;
 
-            if ((candidate & 1) == 0)
+            if ((candidate & 1) == 0)   
                 return (candidate == 2);
-
+                                        
             var num = (int) Math.Sqrt(candidate);
 
             for (var i = 3; i <= num; i += 2)
@@ -31,50 +31,73 @@ namespace MagicPrimes
             return theList.Take(upperLimit).Where(i => i >= lowerLimit && i <= upperLimit);
         }
 
-        public static long ToLong(this List<int> digits)
+        public static long ToLong(this int[] digits)
         {
-            return long.Parse(string.Join(string.Empty, digits));
+            long result = 0;
+
+            for (var i = 0; i < digits.Length; i++)
+            {
+                var digit = digits[i];
+                result += (long)Math.Pow(10, digits.Length - i - 1) * digit;
+            }
+
+            return result;
         }
 
-        public static List<Answer> FindFactorsForSequence(this IEnumerable<int> theList, int factorsCount, int sequenceLength, int lowerLimit, int upperLimit, Stopwatch stopwatch)
+        public static List<Answer> FindFactorsForSequence(this IEnumerable<int> primes, int factorsCount, int sequenceLength, int lowerLimit, int upperLimit, Stopwatch stopwatch)
         {
-            var sequences = new Sequence(sequenceLength).ValidSequences;
+            var sequences = new Sequence(sequenceLength).validDigitSequences.ToArray();
 
             var digitMinimum = sequenceLength / factorsCount; // eg 3....   12/4
 
             var lowestFactor = (int)Math.Pow(10, digitMinimum-1); // eg 100
 
-            var primesInRange = theList.Between(lowestFactor, upperLimit).ToList(); // eg 100-1000
-            var primesBelowRange = theList.Between(lowerLimit, lowestFactor).ToList(); // eg 0-100
+            var primesInRange = primes.Between(lowestFactor, upperLimit).ToArray(); // eg 100-1000
+            var primesBelowRange = primes.Between(lowerLimit, lowestFactor).ToArray(); // eg 0-100
 
             var answers = new List<Answer>();
 
-            foreach (var candidateSequence in sequences)
+            foreach (var candidateSequenceDigits in sequences)
             {
-                if (primesBelowRange.Any(p => candidateSequence % p == 0))
+                var candidateSequence = candidateSequenceDigits.ToLong();
+
+                bool hasLowFactor = false;
+                foreach (var p in primesBelowRange)
                 {
-                    // Note: if any factor is in the range, it means the sequence length can never be met
+                    if (candidateSequence % p == 0)
+                    {
+                        hasLowFactor = true;
+                        break;
+                    }
+                }
+
+                if (hasLowFactor)
+                {
                     continue;
                 }
 
                 var count = 0;
-                var answer = new List<long>();
+                var factors = new List<long>();
                 foreach (var p in primesInRange)
                 {
-                    if (candidateSequence % p == 0)
+                    if (candidateSequence % p != 0)
                     {
-                        count++;
-                        answer.Add(p);
+                        continue;
                     }
+
+                    count++;
+                    factors.Add(p);
+                    //if (count == 4) break;
                 }
 
-                if (count != factorsCount || answer.Aggregate((a, b) => a * b) != candidateSequence)
+                if (count != factorsCount)// || factors.Aggregate((a, b) => a * b) != candidateSequence)
                 {
                     // Note : aggregate check here might be redundant
                     continue;
                 }
 
-                answers.Add(new Answer(stopwatch.ElapsedMilliseconds, candidateSequence, answer));
+                answers.Add(new Answer(stopwatch.ElapsedMilliseconds, candidateSequence, factors));
+                
             }
 
             return answers;
