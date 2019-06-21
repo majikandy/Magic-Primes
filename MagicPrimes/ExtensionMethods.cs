@@ -40,19 +40,20 @@ namespace MagicPrimes
         {
             var sequences = new Sequence(sequenceLength).ValidSequences;
 
-            var digitMinimum = sequenceLength / factorsCount;
+            var digitMinimum = sequenceLength / factorsCount; // eg 3....   12/4
 
-            var lowestFactor = (int)Math.Pow(10, digitMinimum-1);
+            var lowestFactor = (int)Math.Pow(10, digitMinimum-1); // eg 100
 
             var primesInRange = theList.Between(lowestFactor, upperLimit).ToList(); // eg 100-1000
-            var primesBelow100 = theList.Between(lowerLimit, lowestFactor).ToList(); // eg 0-100
+            var primesBelowRange = theList.Between(lowerLimit, lowestFactor).ToList(); // eg 0-100
 
             var answers = new List<Answer>();
 
             foreach (var candidateSequence in sequences)
             {
-                if (primesBelow100.Any(p => candidateSequence % p == 0))
+                if (primesBelowRange.Any(p => candidateSequence % p == 0))
                 {
+                    // Note: if any factor is in the range, it means the sequence length can never be met
                     continue;
                 }
 
@@ -69,6 +70,7 @@ namespace MagicPrimes
 
                 if (count != factorsCount || answer.Aggregate((a, b) => a * b) != candidateSequence)
                 {
+                    // Note : aggregate check here might be redundant
                     continue;
                 }
 
