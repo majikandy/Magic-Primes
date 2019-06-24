@@ -22,7 +22,7 @@ namespace MagicPrimes.Tests
             var stopwatch = Stopwatch.StartNew();
 
             var primes = Program.Integers.Where(i => i.IsPrime());
-           
+
             var answers = primes.FindFactorsForSequence(4,12, 0,1000, stopwatch);
 
             foreach (var answer in answers)
@@ -30,9 +30,9 @@ namespace MagicPrimes.Tests
                 this.testOutput.WriteLine(answer.ElapsedTimeInMs + "ms : " + answer.Sequence + " = " + string.Join(" * ", answer.Factors));
             }
 
-            //answers.Count().Should().Be(1);
-            //answers.Single().Sequence.Should().Be(123334444567);
-            //answers.Single().Factors.Should().BeEquivalentTo(new List<long>() { 313, 563, 811, 863 });
+            answers.Count().Should().Be(1);
+            answers.Single().Sequence.Should().Be(123334444567);
+            answers.Single().Factors.Should().BeEquivalentTo(new List<long>() { 313, 563, 811, 863 });
         }
     }
 }

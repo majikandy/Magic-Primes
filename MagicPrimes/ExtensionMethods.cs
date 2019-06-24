@@ -48,12 +48,7 @@ namespace MagicPrimes
         {
             var sequences = new Sequence(sequenceLength).validDigitSequences.ToArray();
 
-            var digitMinimum = sequenceLength / factorsCount; // eg 3....   12/4
-
-            var lowestFactor = (int)Math.Pow(10, digitMinimum-1); // eg 100
-
-            var primesInRange = primes.Between(lowestFactor, upperLimit).ToArray(); // eg 100-1000
-            var primesBelowRange = primes.Between(lowerLimit, lowestFactor).ToArray(); // eg 0-100
+            var primesInRange = primes.Between(lowerLimit, upperLimit).ToArray();
 
             var answers = new List<Answer>();
 
@@ -61,17 +56,7 @@ namespace MagicPrimes
             {
                 var candidateSequence = candidateSequenceDigits.ToLong();
 
-                bool hasLowFactor = false;
-                foreach (var p in primesBelowRange)
-                {
-                    if (candidateSequence % p == 0)
-                    {
-                        hasLowFactor = true;
-                        break;
-                    }
-                }
-
-                if (hasLowFactor)
+                if (candidateSequence % 2 == 0)
                 {
                     continue;
                 }
@@ -80,6 +65,7 @@ namespace MagicPrimes
                 var factors = new List<long>();
                 foreach (var p in primesInRange)
                 {
+                    
                     if (candidateSequence % p != 0)
                     {
                         continue;
@@ -87,17 +73,14 @@ namespace MagicPrimes
 
                     count++;
                     factors.Add(p);
-                    //if (count == 4) break;
-                }
+                    if (count == factorsCount)
+                    {
+                        if (factors[0] * factors[1] * factors[2] * factors[3] == candidateSequence)
+                            answers.Add(new Answer(stopwatch.ElapsedMilliseconds, candidateSequence, factors));
 
-                if (count != factorsCount)// || factors.Aggregate((a, b) => a * b) != candidateSequence)
-                {
-                    // Note : aggregate check here might be redundant
-                    continue;
+                        break;
+                    }
                 }
-
-                answers.Add(new Answer(stopwatch.ElapsedMilliseconds, candidateSequence, factors));
-                
             }
 
             return answers;
