@@ -62,25 +62,23 @@ namespace MagicPrimes
                 }
 
                 var count = 0;
-                var factors = new List<long>();
+                var factors = new List<int>();
                 foreach (var p in primesInRange)
                 {
-                    
                     if (candidateSequence % p != 0)
                     {
                         continue;
                     }
-
-                    count++;
                     factors.Add(p);
+                    count++;
                     if (count == factorsCount)
                     {
-                        if (factors[0] * factors[1] * factors[2] * factors[3] == candidateSequence)
-                            answers.Add(new Answer(stopwatch.ElapsedMilliseconds, candidateSequence, factors));
-
                         break;
                     }
                 }
+
+                if (count == factorsCount && (long)factors[0] * factors[1] * factors[2] * factors[3] == candidateSequence)
+                    answers.Add(new Answer(stopwatch.ElapsedMilliseconds, candidateSequence, factors));
             }
 
             return answers;

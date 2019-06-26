@@ -6,9 +6,9 @@ namespace MagicPrimes
     {
         public long ElapsedTimeInMs { get; }
         public long Sequence { get; }
-        public List<long> Factors { get; }
+        public List<int> Factors { get; }
 
-        public Answer(long elapsedTimeInMs, long sequence, List<long> factors)
+        public Answer(long elapsedTimeInMs, long sequence, List<int> factors)
         {
             ElapsedTimeInMs = elapsedTimeInMs;
             Sequence = sequence;

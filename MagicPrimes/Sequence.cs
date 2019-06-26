@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MagicPrimes
@@ -9,7 +10,11 @@ namespace MagicPrimes
 
         public Sequence(int length)
         {
-            var validSequence = Enumerable.Repeat(1, length).ToArray();
+            var validSequence = new int[length];
+            for (int j = 0; j < length; j++)
+            {
+                validSequence[j] = 1;
+            }
 
             validDigitSequences.Add(validSequence);
 
@@ -25,9 +30,11 @@ namespace MagicPrimes
         {
             while (true)
             {
-                var validSequence = (int[]) previousValidSequence.Clone();
-
-                if (validSequence[0] == 9) break;
+                var validSequence = new int[previousValidSequence.Length];
+                for (int j = 0; j < previousValidSequence.Length; j++)
+                {
+                    validSequence[j] = previousValidSequence[j];
+                }
 
                 var IsFirstDigit = i == 0;
 

@@ -23,7 +23,7 @@ namespace MagicPrimes.Tests
 
             var primes = Program.Integers.Where(i => i.IsPrime());
 
-            var answers = primes.FindFactorsForSequence(4,12, 0,1000, stopwatch);
+            var answers = primes.FindFactorsForSequence(4,12, 101,1000, stopwatch);
 
             foreach (var answer in answers)
             {
