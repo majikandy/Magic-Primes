@@ -10,7 +10,7 @@ There are four distinct prime numbers, each in the range 1 - 1000 which, when yo
 
  
 
-Your mission is to write a C# application to find and output the four prime numbers.
+**Your mission is to write a C# application to find and output the four prime numbers.**
 
  
 
@@ -18,6 +18,6 @@ David will donate a couple of bottles of wine as prizes for performance and arti
 
 
 
-Performance: for the application that runs in the shortest time while producing the correct results
+**Performance:** for the application that runs in the shortest time while producing the correct results
 
-Artistic impression: for the most concise or elegant code
+**Artistic impression:** for the most concise or elegant code
