@@ -20,16 +20,23 @@ namespace MagicPrimes
 
             var i = validSequence.Count() - 1;
 
+            int[] seq = validSequence;
+
             while (validDigitSequences.Last()[0] != 9)
             {
-                GetNextValidSequence(validDigitSequences.Last(), i);
+                seq = GetNextValidSequence(seq, i);
+                validDigitSequences.Add(seq);
             }
         }
 
-        private void GetNextValidSequence(int[] previousValidSequence, int i)
+        private int[] GetNextValidSequence(int[] previousValidSequence, int i)
         {
             while (true)
             {
+                if (previousValidSequence[0] == 9)
+                {
+                    return previousValidSequence;
+                }
                 var validSequence = new int[previousValidSequence.Length];
                 for (int j = 0; j < previousValidSequence.Length; j++)
                 {
@@ -41,16 +48,16 @@ namespace MagicPrimes
                 if (validSequence[i] != 9 && (IsFirstDigit || ValueIsSameAsIndexMinus1(i, validSequence)))
                 {
                     IncrementAtIndexAndResetAllToTheRight(i, validSequence);
-                    validDigitSequences.Add(validSequence);
-                }
-                else
-                {
-                    i--;
-                    previousValidSequence = validSequence;
-                    continue;
-                }
 
-                break;
+                    if((validSequence[i] & 1) == 0) // even (skip)
+                    {
+                        return GetNextValidSequence(validSequence, validSequence.Length-1);
+                    }
+
+                    return validSequence;
+                }
+                i--;
+                previousValidSequence = validSequence;
             }
         }
 

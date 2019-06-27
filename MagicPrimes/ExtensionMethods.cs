@@ -15,9 +15,9 @@ namespace MagicPrimes
             if ((candidate & 1) == 0)   
                 return (candidate == 2);
                                         
-            var num = (int) Math.Sqrt(candidate);
+            var sqrt = (int) Math.Sqrt(candidate);
 
-            for (var i = 3; i <= num; i += 2)
+            for (var i = 3; i <= sqrt; i += 2)
             {
                 if ((candidate % i) == 0)
                     return false;
@@ -44,32 +44,24 @@ namespace MagicPrimes
             return result;
         }
 
-        public static List<Answer> FindFactorsForSequence(this IEnumerable<int> primes, int factorsCount, int sequenceLength, int lowerLimit, int upperLimit, Stopwatch stopwatch)
+        public static Answer FindFactorsForSequence(this IEnumerable<int> primes, int factorsCount, int sequenceLength, Stopwatch stopwatch)
         {
             var sequences = new Sequence(sequenceLength).validDigitSequences.ToArray();
-
-            var primesInRange = primes.Between(lowerLimit, upperLimit).ToArray();
-
-            var answers = new List<Answer>();
+            var primesArray = primes.ToArray();
 
             foreach (var candidateSequenceDigits in sequences)
             {
                 var candidateSequence = candidateSequenceDigits.ToLong();
 
-                if (candidateSequence % 2 == 0)
-                {
-                    continue;
-                }
-
-                var count = 0;
+               var count = 0;
                 var factors = new List<int>();
-                foreach (var p in primesInRange)
+                foreach (var prime in primesArray)
                 {
-                    if (candidateSequence % p != 0)
+                    if (candidateSequence % prime != 0)
                     {
                         continue;
                     }
-                    factors.Add(p);
+                    factors.Add(prime);
                     count++;
                     if (count == factorsCount)
                     {
@@ -77,11 +69,14 @@ namespace MagicPrimes
                     }
                 }
 
-                if (count == factorsCount && (long)factors[0] * factors[1] * factors[2] * factors[3] == candidateSequence)
-                    answers.Add(new Answer(stopwatch.ElapsedMilliseconds, candidateSequence, factors));
+                if (count == factorsCount &&
+                    (long) factors[0] * factors[1] * factors[2] * factors[3] == candidateSequence)
+                {
+                    return new Answer(stopwatch.ElapsedMilliseconds, candidateSequence, factors);
+                }
             }
 
-            return answers;
+            throw new KeyNotFoundException();
         }
     }
 }
