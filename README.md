@@ -14,9 +14,10 @@ Your mission is to write a C# application to find and output the four prime numb
 
  
 
-I will donate a couple of bottles of wine as prizes for performance and artistic impression as follows:
+David will donate a couple of bottles of wine as prizes for performance and artistic impression as follows:
 
 
 
 Performance: for the application that runs in the shortest time while producing the correct results
+
 Artistic impression: for the most concise or elegant code
