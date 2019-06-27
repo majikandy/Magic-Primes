@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicPrimes", "MagicPrimes\MagicPrimes.csproj", "{B7B60007-7EBC-4A0A-A42A-3B915C17C843}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicPrimes", "MagicPrimes\MagicPrimes.csproj", "{B7B60007-7EBC-4A0A-A42A-3B915C17C843}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicPrimes.Tests", "MagicPrimes.Tests\MagicPrimes.Tests.csproj", "{2EEEE4D7-38B5-459F-BCE6-0F0BD6E8852B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicPrimes.Tests", "MagicPrimes.Tests\MagicPrimes.Tests.csproj", "{2EEEE4D7-38B5-459F-BCE6-0F0BD6E8852B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

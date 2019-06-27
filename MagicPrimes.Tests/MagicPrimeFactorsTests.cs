@@ -21,18 +21,12 @@ namespace MagicPrimes.Tests
         {
             var stopwatch = Stopwatch.StartNew();
 
-            var primes = Program.Integers.Where(i => i.IsPrime());
+            var answer = Program.Primes.Between(101,1000).FindFactorsForSequence(4,12, stopwatch);
 
-            var answers = primes.FindFactorsForSequence(4,12, 101,1000, stopwatch);
+            this.testOutput.WriteLine(answer.ElapsedTimeInMs + "ms : " + answer.Sequence + " = " + string.Join(" * ", answer.Factors));
 
-            foreach (var answer in answers)
-            {
-                this.testOutput.WriteLine(answer.ElapsedTimeInMs + "ms : " + answer.Sequence + " = " + string.Join(" * ", answer.Factors));
-            }
-
-            answers.Count().Should().Be(1);
-            answers.Single().Sequence.Should().Be(123334444567);
-            answers.Single().Factors.Should().BeEquivalentTo(new List<long>() { 313, 563, 811, 863 });
+            answer.Sequence.Should().Be(123334444567);
+            answer.Factors.Should().BeEquivalentTo(new List<long>() { 313, 563, 811, 863 });
         }
     }
 }
