@@ -11,9 +11,12 @@ namespace MagicPrimes
             get
             {
                 for (var i = 1; true; i++)
-
+                {
                     if (i.IsPrime())
+                    {
                         yield return (i);
+                    }
+                }
             }
         }
 
